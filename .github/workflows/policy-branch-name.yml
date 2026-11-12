@@ -1,0 +1,68 @@
+# Reference template — copy into repo .github/workflows/; tune for governance policy.
+# Required check name: policy-branch-name (enable when CI gate is ready)
+#
+# Complements GitHub ruleset branch_name_pattern (blocks push of bad names).
+# See playbook/ship/branching-policy.md
+
+name: policy-branch-name
+
+on:
+  pull_request:
+    branches: [develop]
+
+jobs:
+  policy-branch-name:
+    runs-on: ubuntu-latest
+    steps:
+      - name: validate head branch name
+        env:
+          HEAD: ${{ github.head_ref }}
+          NAMING_MODE: standard
+        run: |
+          set -euo pipefail
+
+          # Long-lived branches must not be used as PR sources
+          case "$HEAD" in
+            main|develop)
+              echo "Cannot open PR to develop from $HEAD"
+              exit 1
+              ;;
+          esac
+
+          # Allowed prefixes; slug may include initiative id (BOOTSTRAP-001-...)
+          ALLOWED_REGEX='^(feature|fix|hotfix|release|chore)/[a-zA-Z0-9][a-zA-Z0-9._-]+$'
+          if [[ ! "$HEAD" =~ $ALLOWED_REGEX ]]; then
+            echo "Branch name must match: <prefix>/<slug>"
+            echo "  Allowed prefixes: feature, fix, hotfix, release, chore"
+            echo "  Slug: letters, digits, . _ - (e.g. BOOTSTRAP-001-jwt-login)"
+            echo "  Got: $HEAD"
+            exit 1
+          fi
+
+          # Strict mode: feature branches must follow initiative branch convention
+          # Pattern: feature/INIT-{COMPONENT}-{NUMBER}-w{N}-{slug}
+          #   COMPONENT = service branch_code from service-catalog.yaml (2-7 uppercase chars)
+          #   NUMBER    = initiative sequence number (1-7 digits, e.g. 001, 0012)
+          #   w{N}      = wave number, e.g. w0, w1, w2 — expected by convention (advisory; not enforced by regex)
+          #   slug      = lowercase kebab description (e.g. ingestion-pipeline, jwt-login)
+          # Examples:
+          #   feature/INIT-KAVACH-001-w2-jwt-login
+          #   feature/INIT-MNTHAN-001-w1-flink-core
+          #   feature/INIT-MOBBOT-001-w1-extraction-pipeline
+          if [[ "$NAMING_MODE" == "strict" ]]; then
+            case "$HEAD" in
+              feature/*)
+                if [[ ! "$HEAD" =~ ^feature/INIT-[A-Z]{2,7}-[0-9]{1,7}-[a-z][a-z0-9._-]+$ ]]; then
+                  echo "Strict mode: feature branches must be feature/INIT-{COMPONENT}-{NUMBER}-{slug}"
+                  echo "  COMPONENT: 2-7 uppercase chars (repo abbreviation, e.g. KAVACH, MNTHAN, MOBBT)"
+                  echo "  NUMBER:    1-7 digits (initiative sequence, e.g. 001, 0012)"
+                  echo "  slug:      lowercase description (e.g. w2-jwt-login, wave-extraction-cli)"
+                  echo "  Example:   feature/INIT-KAVACH-001-w2-jwt-login"
+                  echo "  Got: $HEAD"
+                  exit 1
+                fi
+                ;;
+            esac
+          fi
+
+          echo "OK: $HEAD"

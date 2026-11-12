@@ -1,0 +1,50 @@
+# Backend profile — copy to .github/CODEOWNERS in each app repo
+# Replace @ankitv89/... with actual GitHub org/team names.
+#
+# Branch protection required:
+#   Settings → Branches → develop → "Require review from Code Owners" ON
+#
+# Sign-off workflow: launchpad/playbook/ship/delivery-workflow.md § Sign-off workflow
+
+# ── Spec pipeline reports (skill gates) ──────────────────────────────────────
+
+# TDD requires PE sign-off before /spec-implementation-plan runs
+/docs/specification/reports/Technical-Review-*       @ankitv89/pe-team
+
+# Implementation plan requires dev lead review before /create-board-tickets (gh issue create per wave)
+/docs/specification/reports/Implementation-Plan-*    @ankitv89/backend-devs
+
+# Ground reports gate the next wave — tech lead must approve
+/docs/specification/reports/Ground-Report-*          @ankitv89/backend-devs
+
+# Feasibility reports — dev-owned; product Q&A on meta PRD PR
+/docs/specification/reports/Feasibility-Report-*     @ankitv89/backend-devs
+
+# ── Product specs ─────────────────────────────────────────────────────────────
+
+# Spec changes need PM awareness + dev merge authority
+/docs/specification/product/                         @ankitv89/pm-team @ankitv89/backend-devs
+
+# ── ADRs ──────────────────────────────────────────────────────────────────────
+
+# Architecture decisions require PE
+/docs/specification/adr/                             @ankitv89/pe-team
+
+# ── As-built ──────────────────────────────────────────────────────────────────
+
+# Dev-owned — PM cannot modify implementation status
+/docs/specification/as-built/                        @ankitv89/backend-devs
+
+# ── Constitution and rules ────────────────────────────────────────────────────
+
+.cursor/rules/                                       @ankitv89/pe-team
+.agents/skills/                                      @ankitv89/backend-devs
+
+# ── Source and tests ──────────────────────────────────────────────────────────
+
+/src/                                                @ankitv89/backend-devs
+/tests/                                              @ankitv89/backend-devs
+
+# ── Default ───────────────────────────────────────────────────────────────────
+
+*                                                    @ankitv89/backend-devs

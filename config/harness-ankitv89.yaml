@@ -1,0 +1,26 @@
+apiVersion: launchpad/v1
+kind: HarnessConfig
+
+org: ankitv89
+delivery_contract: sdd-delivery/v2
+delivery_roles:
+  engineering-gate: backend-devs
+
+profiles:
+  python-backend:
+    constitution:
+      repo: python-services-rules
+      ref: v0.5.12
+    skills:
+      - repo: prayog-skills
+        ref: v0.5.5
+    skill_runtimes:
+      - .agents/skills
+      - .claude/skills
+      - .cursor/skills
+    owners:
+      team: backend-devs
+      layout: app_src
+
+repos:
+  aa-demo: python-backend

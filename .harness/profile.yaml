@@ -1,0 +1,43 @@
+# Python backend SDD harness — layout defaults for development skills.
+# launchpad apply-harness copies this to .harness/profile.yaml in consumer app repos.
+
+profile: python-backend
+
+layout:
+  constitution: AGENTS.md
+  rules_glob: .cursor/rules/*.mdc
+  spec_root: docs/specification
+  product_spec_dir: docs/specification/product
+  as_built: docs/specification/as-built/implementation-status.md
+  adr_dir: docs/specification/adr
+  reports_dir: docs/specification/reports
+  tests_readme: tests/README.md
+  source_roots:
+    - src/
+  unit_tests_dir: tests/unit
+  live_verify_dir: tests/verify
+  fixtures_dir: tests/fixtures
+  debug_tests_dir: tests/debug
+
+reports:
+  feasibility_prefix: Initiative-Feasibility-Report
+  plan_prefix: Implementation-Plan
+
+as_built:
+  harness_section: "## Testing harness"
+
+development_skills:
+  - spec-draft
+  - initiative-feasibility
+  - spec-technical-review
+  - spec-implementation-plan
+  - pre-implement
+  - loop-spec
+  - learning-extract
+  - ground-spec
+  - purge-initiative-artifacts-app
+
+forge_skills:
+  - commit-workspace
+  - open-draft-pr
+  - create-board-tickets

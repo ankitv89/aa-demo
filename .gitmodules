@@ -1,0 +1,6 @@
+[submodule ".cursor/rules"]
+	path = .cursor/rules
+	url = https://github.com/drivestream-lab/python-services-rules
+[submodule "prayog-skills"]
+	path = prayog-skills
+	url = https://github.com/drivestream-lab/prayog-skills
