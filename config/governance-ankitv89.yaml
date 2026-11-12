@@ -1,0 +1,19 @@
+apiVersion: launchpad/v1
+kind: GovernanceConfig
+
+org: ankitv89
+
+stack_profiles:
+  python-backend: Python / FastAPI microservice
+
+teams:
+  - name: backend-devs
+    description: Backend — notification engine
+    privacy: closed
+
+repos:
+  aa-demo:
+    stack: python-backend
+    teams: [backend-devs]
+    visibility: public
+    description: Notification engine demo

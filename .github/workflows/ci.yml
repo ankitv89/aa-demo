@@ -1,0 +1,21 @@
+# Placeholder CI — replace with repo-specific lint/test (Python, Next.js, etc.).
+# Job name must stay "ci" when enabling as a required branch-protection check.
+
+name: ci
+
+on:
+  pull_request:
+    branches: [develop, main]
+  push:
+    branches: [develop, main, 'feature/**']
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: ci placeholder
+        run: |
+          echo "Replace this workflow with repo-specific checks (ruff, pytest, npm run build, ...)"
+          echo "Job name must remain: ci"
